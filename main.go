@@ -185,6 +185,7 @@ func findBestGuess(letters string) {
 	mostUnique := 0
 
 	skips := []rune(letters)
+	var alternatives []string
 
 	for _, word := range words {
 		var uniqueLetters = make(map[rune]int)
@@ -201,10 +202,18 @@ func findBestGuess(letters string) {
 		if currentUnique > mostUnique {
 			guess = word
 			mostUnique = currentUnique
+			alternatives = []string{}
+		} else if currentUnique == mostUnique {
+			alternatives = append(alternatives, word)
 		}
 	}
 
+	if len(alternatives) > 10 {
+		alternatives = alternatives[0:10]
+	}
+
 	fmt.Printf("Suggested Guess: %s\n", guess)
+	fmt.Printf("Alternatives: %s\n", alternatives)
 }
 
 func contains(s []rune, r rune) bool {
